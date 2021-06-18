@@ -1,0 +1,28 @@
+name: nimarrow-glib CI
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: nimarrow-glib
+
+    - name: Install build dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-fast update -qq
+          sudo DEBIAN_FRONTEND='noninteractive' apt-fast install \
+            --no-install-recommends -yq gcc-multilib g++-multilib \
+            libssl-dev:i386
+          wget https://nim-lang.org/download/nim-1.4.8-linux_x64.tar.xz
+          tar xf nim-1.4.8-linux_x64.tar.xz         
+          echo '${{ github.workspace }}/nim-1.4.8/bin' >> $GITHUB_PATH
+    
+    - name: Run nimarrow-glib tests
+      shell: bash
+      working-directory: nimarrow-glib
+      run: |
+        nimble install -y --depsOnly
+        nimble test
