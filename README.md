@@ -1,3 +1,5 @@
+[![nimarrow-glib CI](https://github.com/emef/nimarrow_glib/actions/workflows/ci.yml/badge.svg)](https://github.com/emef/nimarrow_glib/actions/workflows/ci.yml)
+
 ## Installation Notes
 To install the arrow/parquet libs on debian:
 
