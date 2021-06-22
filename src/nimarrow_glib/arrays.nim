@@ -202,6 +202,15 @@ proc defaultDataTypeProc(name: NimNode): NimNode =
   quote do:
     proc `procNew`*(): GArrowDataTypePtr {.importc: `importNew`.}
 
+proc arrayNewIdent*(name: NimNode): NimNode =
+  "array_new".toNimProc(name)
+
+proc arrayGetValueIdent*(name: NimNode): NimNode =
+  "array_get_value".toNimProc(name)
+
+proc arrayGetValuesIdent*(name: NimNode): NimNode =
+  "array_get_values".toNimProc(name)  
+
 macro DeclareNumericArray(dtype, name: untyped, 
                           isTime: static[bool] = false): untyped =
   result = newStmtList()
