@@ -6,13 +6,13 @@ test "can add":
 
   var err: GErrorPtr
 
-  let int32Dtype = int32DataTypeNew()  
-  let fieldA = newArrowField("a", int32Dtype)
-  let fieldB = newArrowField("b", int32Dtype)
+  let int32Dtype = int32DataTypeNew()
+  let fieldA = fieldNew("a", int32Dtype)
+  let fieldB = fieldNew("b", int32Dtype)
   var fields: GListPtr = nil
-  fields = fields.append(fieldA)
-  fields = fields.append(fieldB)
-  let schema = newArrowSchema(fields)
+  fields = fields.glistAppend(fieldA)
+  fields = fields.glistAppend(fieldB)
+  let schema = schemaNew(fields)
 
   var colA: array[16, int32]
   var colB: array[16, int32]
@@ -31,14 +31,11 @@ test "can add":
   var colA2 = cast[ptr UncheckedArray[int32]](alloc0(64))
   colA2[0] = 1'i32
   colA2[1] = 2'i32
-  
+
   var a1: pointer = unsafeAddr colA[0]
   var a2: pointer = colA2
 
-
-
   let colASeq = @[1'i32, 2'i32]
-
 
   let colABuffer = bufferNew(a1, 16)
   let colBBuffer = bufferNew(unsafeAddr colB, 64)
@@ -69,17 +66,17 @@ test "can add":
   echo colAArray2.arrayToString(err)
 
   var values: GListPtr = nil
-  values = values.append(colAArray2)
-  values = values.append(colBArray2)
-  
-  let table = newArrowTableValues(schema, values, err)
-  
+  values = values.glistAppend(colAArray2)
+  values = values.glistAppend(colBArray2)
+
+  let table = tableNewValues(schema, values, err)
+
   echo repr(err)
   echo repr(table)
 
   let writerProps = newParquetWriterProperties();
-  
-  let writer = newParquetFileWriterPath(schema, "/tmp/test.parq", writerProps, err)  
+
+  let writer = newParquetFileWriterPath(schema, "/tmp/test.parq", writerProps, err)
   let chunkSize = 100'u64
 
   let ok = writer.writeTable(table, chunkSize, err)
@@ -87,6 +84,6 @@ test "can add":
   echo repr(err)
 
   let closed = writer.close(err)
-  echo "closed? ", closed 
+  echo "closed? ", closed
   echo repr(err)
-  
+
