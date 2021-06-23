@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.0"
+version       = "0.1.1"
 author        = "matt forbes"
 description   = "apache arrow and parquet c api bindings"
 license       = "Apache-2.0"
