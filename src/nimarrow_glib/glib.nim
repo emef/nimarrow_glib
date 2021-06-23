@@ -14,16 +14,23 @@ type
     message*: cstring
   GErrorPtr* = ptr GError
 
-  GBytes = object 
+  GBytes = object
   GBytesPtr* = ptr GBytes
 
 
 {.push dynlib: libglib.}
-proc append*(list: GListPtr, data: pointer): GListPtr {.importc: "g_list_append".}
+
+proc glistAppend*(list: GListPtr, data: pointer): GListPtr
+  {.importc: "g_list_append".}
+
+proc glistFree*(list: GListPtr) {.importc: "g_list_free".}
 
 proc gfree*(data: pointer) {.importc: "g_free".}
 
 proc gErrorFree*(error: GErrorPtr) {.importc: "g_error_free".}
+
+proc gbytesGetData*(gbytes: GBytesPtr, size: var uint64): pointer
+                    {.importc: "g_bytes_get_data".}
 
 {.pop.}
 

@@ -36,9 +36,9 @@ and parquet libraries referenced here: https://arrow.apache.org/docs/c_glib/
 - [x] GArrowType — Type mapping between Arrow and arrow-glib
 - [x] Basic data type classes
 - [ ] Composite data type classes
-- [ ] GArrowField — Field class
-- [ ] GArrowSchema — Schema class
-- [ ] GArrowTable — Table class
+- [x] GArrowField — Field class
+- [x] GArrowSchema — Schema class
+- [x] GArrowTable — Table class
 - [ ] Record batch related classes
 - [ ] GArrowChunkedArray — Chunked array class
 - [ ] Table builder classes

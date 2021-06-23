@@ -1,12 +1,13 @@
-import ./arrow
 import ./glib
+import ./schemas
+import ./tables
 
 const libName = "libparquet-glib.so"
 
 type
   GParquetArrowFileWriter = object
   GParquetArrowFileWriterPtr* = ptr GParquetArrowFileWriter
-  GParquetWriterProperties = object 
+  GParquetWriterProperties = object
   GParquetWriterPropertiesPtr* = ptr GParquetWriterProperties
 
 #[
@@ -14,7 +15,7 @@ type
 gparquet_arrow_file_writer_new_path (GArrowSchema *schema,
                                      const gchar *path,
                                      GParquetWriterProperties *writer_properties,
-                                     GError **error);                                     
+                                     GError **error);
 ]#
 
 {.push dynlib: libName.}
@@ -28,11 +29,11 @@ proc newParquetFileWriterPath*(schema: GArrowSchemaPtr, path: cstring,
                                {.importc: "gparquet_arrow_file_writer_new_path".}
 
 
-proc writeTable*(w: GParquetArrowFileWriterPtr, table: GArrowTablePtr, 
-                 chunkSize: uint64, error: var GErrorPtr): bool 
-                 {.importc: "gparquet_arrow_file_writer_write_table".}                         
+proc writeTable*(w: GParquetArrowFileWriterPtr, table: GArrowTablePtr,
+                 chunkSize: uint64, error: var GErrorPtr): bool
+                 {.importc: "gparquet_arrow_file_writer_write_table".}
 
-proc close*(w: GParquetArrowFileWriterPtr, error: var GErrorPtr): bool 
+proc close*(w: GParquetArrowFileWriterPtr, error: var GErrorPtr): bool
             {.importc: "gparquet_arrow_file_writer_close".}
-                 
+
 {.pop.}

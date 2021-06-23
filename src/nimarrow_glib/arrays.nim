@@ -25,11 +25,11 @@ type
     GARROW_TIME_UNIT_SECOND, GARROW_TIME_UNIT_MILLI, GARROW_TIME_UNIT_MICRO,
     GARROW_TIME_UNIT_NANO
 
-type 
-  GArrowArray = object 
+type
+  GArrowArray = object
   GArrowArrayPtr* = ptr GArrowArray
-  
-  GArrowDataType = object 
+
+  GArrowDataType = object
   GArrowDataTypePtr* = ptr GArrowDataType
 
   GArrowExtensionDataTypeRegistry = object
@@ -42,59 +42,59 @@ proc arrayEqual*(arr: GArrowArrayPtr, arr_other: GArrowArrayPtr): bool
 
 proc arrayEqualApprox*(arr: GArrowArrayPtr, arr_other: GArrowArrayPtr): bool
                        {.importc: "garrow_array_equal_approx".}
-                
-proc arrayEqualRange*(arr: GArrowArrayPtr, start_index: int64, 
+
+proc arrayEqualRange*(arr: GArrowArrayPtr, start_index: int64,
                       arr_other: GArrowArrayPtr, other_start_index: int64,
-                      end_index: int64): bool 
+                      end_index: int64): bool
                       {.importc: "garrow_array_equal_range".}
-                    
+
 proc arrayIsNull*(arr: GArrowArrayPtr, i: int64): bool
   {.importc: "garrow_array_is_null".}
 
 proc arrayIsValid*(arr: GArrowArrayPtr, i: int64): bool
-  {.importc: "garrow_array_is_valid".}                
+  {.importc: "garrow_array_is_valid".}
 
-proc arrayGetLength*(arr: GArrowArrayPtr): int64  
-  {.importc: "garrow_array_get_length".}                 
+proc arrayGetLength*(arr: GArrowArrayPtr): int64
+  {.importc: "garrow_array_get_length".}
 
-proc arrayGetOffset*(arr: GArrowArrayPtr): int64  
-  {.importc: "garrow_array_get_offset".}  
-                      
-proc arrayGetNNulls*(arr: GArrowArrayPtr): int64  
+proc arrayGetOffset*(arr: GArrowArrayPtr): int64
+  {.importc: "garrow_array_get_offset".}
+
+proc arrayGetNNulls*(arr: GArrowArrayPtr): int64
   {.importc: "garrow_array_get_n_nulls".}
 
-proc arrayGetNullBitmap*(arr: GArrowArrayPtr): GArrowBufferPtr  
+proc arrayGetNullBitmap*(arr: GArrowArrayPtr): GArrowBufferPtr
   {.importc: "garrow_array_get_null_bitmap".}
 
-proc arrayGetValueDataType*(arr: GArrowArrayPtr): GArrowDataTypePtr 
+proc arrayGetValueDataType*(arr: GArrowArrayPtr): GArrowDataTypePtr
   {.importc: "garrow_array_get_value_data_type".}
 
-proc arrayGetValueType*(arr: GArrowArrayPtr): cint 
+proc arrayGetValueType*(arr: GArrowArrayPtr): cint
   {.importc: "garrow_array_get_value_type".}
 
-proc arraySlice*(arr: GArrowArrayPtr, offset: int64, 
-                 length: int64): GArrowArrayPtr 
+proc arraySlice*(arr: GArrowArrayPtr, offset: int64,
+                 length: int64): GArrowArrayPtr
                  {.importc: "garrow_array_slice".}
 
 proc arrayToString*(arr: GArrowArrayPtr, error: var GErrorPtr): cstring
   {.importc: "garrow_array_to_string".}
 
-proc arrayView*(arr: GArrowArrayPtr, returnType: GArrowDataTypePtr, 
-                error: var GErrorPtr): GArrowArrayPtr               
-                {.importc: "garrow_array_view".}                
+proc arrayView*(arr: GArrowArrayPtr, returnType: GArrowDataTypePtr,
+                error: var GErrorPtr): GArrowArrayPtr
+                {.importc: "garrow_array_view".}
 
 proc arrayDiffUnified*(arr: GArrowArrayPtr, other: GArrowArrayPtr): cstring
-                       {.importc: "garrow_array_diff_unified".}                 
+                       {.importc: "garrow_array_diff_unified".}
 
-proc arrayConcatenate*(arr: GArrowArrayPtr, otherArrays: GListPtr, 
-                       error: var GErrorPtr): GArrowArrayPtr   
-                       {.importc: "garrow_array_concatenate".}               
+proc arrayConcatenate*(arr: GArrowArrayPtr, otherArrays: GListPtr,
+                       error: var GErrorPtr): GArrowArrayPtr
+                       {.importc: "garrow_array_concatenate".}
 
 proc nullArrayNew*(length: int64): GArrowArrayPtr
-  {.importc: "garrow_null_array_new".}                   
-                        
+  {.importc: "garrow_null_array_new".}
+
 proc primitiveArrayGetDataBuffer*(arr: GArrowArrayPtr): GArrowBufferPtr
-  {.importc: "garrow_primitive_array_get_data_buffer".} 
+  {.importc: "garrow_primitive_array_get_data_buffer".}
 
 proc fixedSizeBinaryArrayNew*(dataType: GArrowDataTypePtr, length: int64,
                               data: GArrowBufferPtr, nullBitmap: GArrowBufferPtr,
@@ -102,20 +102,20 @@ proc fixedSizeBinaryArrayNew*(dataType: GArrowDataTypePtr, length: int64,
                               {.importc: "garrow_fixed_size_binary_array_new".}
 
 proc fixedSizeBinaryArrayGetByteWidth*(arr: GArrowArrayPtr): int32
-  {.importc: "garrow_fixed_size_binary_array_get_byte_width"}                                      
-                         
+  {.importc: "garrow_fixed_size_binary_array_get_byte_width"}
+
 proc fixedSizeBinaryArrayGetValue*(arr: GArrowArrayPtr, i: int64): GBytesPtr
-  {.importc: "garrow_fixed_size_binary_array_get_value"} 
+  {.importc: "garrow_fixed_size_binary_array_get_value"}
 
 proc fixedSizeBinaryArrayGetValuesBytes*(arr: GArrowArrayPtr): GBytesPtr
-  {.importc: "garrow_fixed_size_binary_array_get_values_bytes"} 
+  {.importc: "garrow_fixed_size_binary_array_get_values_bytes"}
 
 proc extensionArrayGetStorage*(arr: GArrowArrayPtr): GArrowArrayPtr
   {.importc: "garrow_extension_array_get_storage".}
 
-proc dataTypeEqual*(dataType: GArrowDataTypePtr, 
+proc dataTypeEqual*(dataType: GArrowDataTypePtr,
                     otherDataType: GArrowDataTypePtr): bool
-  {.importc: "garrow_data_type_equal".}                   
+  {.importc: "garrow_data_type_equal".}
 
 proc dataTypeToString*(dataType: GArrowDataTypePtr): cstring
   {.importc: "garrow_data_type_to_string".}
@@ -126,13 +126,13 @@ proc dataTypeGetId*(dataType: GArrowDataTypePtr): GArrowType
 proc dataTypeGetName*(dataType: GArrowDataTypePtr): cstring
   {.importc: "garrow_data_type_get_name".}
 
-proc fixedWidthDataTypeGetBitWidth*(dataType: GArrowDataTypePtr): cint 
+proc fixedWidthDataTypeGetBitWidth*(dataType: GArrowDataTypePtr): cint
   {.importc: "garrow_fixed_width_data_type_get_bit_width".}
 
-proc nullDataTypeNew*(): GArrowDataTypePtr 
+proc nullDataTypeNew*(): GArrowDataTypePtr
   {.importc: "garrow_null_data_type_new"}
 
-proc fixedSizeBinaryDataTypeNew*(byteWidth: int32): GArrowDataTypePtr 
+proc fixedSizeBinaryDataTypeNew*(byteWidth: int32): GArrowDataTypePtr
   {.importc: "garrow_fixed_size_binary_data_type_new"}
 
 proc fixedSizeBinaryDataTypeGetByteWidth*(dataType: GArrowDataTypePtr): int32
@@ -166,10 +166,10 @@ proc decimal256DataTypeNew*(precision: int32, scale: int32): GArrowDataTypePtr
   {.importc: "garrow_decimal256_data_type_new".}
 
 proc decimal256DataTypeMaxPrecision*(): int32
-  {.importc: "garrow_decimal256_data_type_max_precision".}  
+  {.importc: "garrow_decimal256_data_type_max_precision".}
 
 proc extensionDataTypeGetExtensionName*(dataType: GArrowDataTypePtr): cstring
-  {.importc: "garrow_extension_data_type_get_extension_name".}  
+  {.importc: "garrow_extension_data_type_get_extension_name".}
 
 proc extensionDataTypeWrapArray*(dataType: GArrowDataTypePtr,
                                  storage: GArrowArrayPtr): GArrowArrayPtr
@@ -179,19 +179,19 @@ proc extensionDataTypeWrapChunkedArray*(dataType: GArrowDataTypePtr,
                                         storage: GArrowArrayPtr)
                                         {.importc: "garrow_extension_data_type_wrap_chunked_array".}
 
-                                                           
+
 proc extensionDataTypeRegistryDefault*(): GArrowExtensionDataTypeRegistryPtr
   {.importc: "garrow_extension_data_type_registry_default".}
 
 proc extensionDataTypeRegistryRegister*(registry: GArrowExtensionDataTypeRegistryPtr,
                                         dataType: GArrowDataTypePtr,
                                         error: var GErrorPtr): bool
-                                       {.importc: "garrow_extension_data_type_registry_register".}                                       
+                                       {.importc: "garrow_extension_data_type_registry_register".}
 
 proc extensionDataTypeRegistryUnregister*(registry: GArrowExtensionDataTypeRegistryPtr,
                                           name: cstring,
                                           error: var GErrorPtr): bool
-                                          {.importc: "garrow_extension_data_type_registry_unregister".} 
+                                          {.importc: "garrow_extension_data_type_registry_unregister".}
 
 proc extensionDataTypeRegistryLookup*(registry: GArrowExtensionDataTypeRegistryPtr,
                                       name: cstring): GArrowDataTypePtr
@@ -209,12 +209,15 @@ proc arrayGetValueIdent*(name: NimNode): NimNode =
   "array_get_value".toNimProc(name)
 
 proc arrayGetValuesIdent*(name: NimNode): NimNode =
-  "array_get_values".toNimProc(name)  
+  "array_get_values".toNimProc(name)
 
-macro DeclareNumericArray(dtype, name: untyped, 
+proc getDataTypeIdent*(name: NimNode): NimNode =
+  "data_type_new".toNimProc(name)
+
+macro DeclareNumericArray(dtype, name: untyped,
                           isTime: static[bool] = false): untyped =
   result = newStmtList()
-  
+
   let (procNew, importNew) = "array_new".toNamePair(name)
   let (procGetValue, importGetValue) = "array_get_value".toNamePair(name)
   let (procGetValues, importGetValues) = "array_get_values".toNamePair(name)
@@ -222,28 +225,28 @@ macro DeclareNumericArray(dtype, name: untyped,
   if not isTime:
     result.add defaultDataTypeProc(name)
     result.add quote do:
-        proc `procNew`*(length: int64, data: GArrowBufferPtr, 
+        proc `procNew`*(length: int64, data: GArrowBufferPtr,
                         nullBitmap: GArrowBufferPtr, nNulls: int64): GArrowArrayPtr
-                        {.importc: `importNew`.}
+                        {.importc: `importNew`}
   else:
     result.add quote do:
-      proc `procNew`*(dataType: GArrowDataTypePtr, length: int64, 
-                      data: GArrowBufferPtr, nullBitmap: GArrowBufferPtr, 
+      proc `procNew`*(dataType: GArrowDataTypePtr, length: int64,
+                      data: GArrowBufferPtr, nullBitmap: GArrowBufferPtr,
                       nNulls: int64): GArrowArrayPtr
                       {.importc: `importNew`.}
-  
+
   result.add quote do:
     proc `procGetValue`*(arr: GArrowArrayPtr, i: int64): `dtype`
       {.importc:`importGetValue`.}
 
-    proc `procGetValues`*(arr: GArrowArrayPtr, 
+    proc `procGetValues`*(arr: GArrowArrayPtr,
                           length: var int64): ptr UncheckedArray[`dtype`]
-                          {.importc: `importGetValues`.}                                          
- 
+                          {.importc: `importGetValues`.}
+
 macro DeclareBinaryArray(name: untyped): untyped =
   let (procNew, importNew) = "array_new".toNamePair(name)
   let (procGetValue, importGetValue) = "array_get_value".toNamePair(name)
-  let (procGetDataBuffer, importGetDataBuffer) = 
+  let (procGetDataBuffer, importGetDataBuffer) =
     "array_get_data_buffer".toNamePair(name)
   let (procGetOffsetsBuffer, importGetOffsetsBuffer) =
     "array_get_offsets_buffer".toNamePair(name)
@@ -260,20 +263,20 @@ macro DeclareBinaryArray(name: untyped): untyped =
       {.importc: `importGetValue`.}
 
     proc `procGetDataBuffer`*(arr: GArrowArrayPtr): GArrowBufferPtr
-      {.importc: `importGetDataBuffer`.}   
+      {.importc: `importGetDataBuffer`.}
 
     proc `procGetOffsetsBuffer`*(arr: GArrowArrayPtr): GArrowBufferPtr
-      {.importc: `importGetOffsetsBuffer`.}                                                
+      {.importc: `importGetOffsetsBuffer`.}
 
 macro AddStringOps(name: untyped): untyped =
-  let (procGetString, importGetString) = "array_get_string".toNamePair(name)                                
+  let (procGetString, importGetString) = "array_get_string".toNamePair(name)
 
   result = quote do:
     proc `procGetString`*(arr: GArrowArrayPtr, i: int64): cstring
       {.importc: `importGetString`.}
 
 macro AddFixedSizeOps(name: untyped): untyped =
-  let (procFormatValue, importFormatValue) = "array_format_value".toNamePair(name)      
+  let (procFormatValue, importFormatValue) = "array_format_value".toNamePair(name)
   let (procGetValue, importGetValue) = "array_get_value".toNamePair(name)
   let returnType = repr(name).toDecimalIdent(true)
 
@@ -311,7 +314,7 @@ DeclareBinaryArray(large_string)
 AddStringOps(string)
 AddStringOps(large_string)
 
-AddFixedSizeOps(decimal128)                          
+AddFixedSizeOps(decimal128)
 AddFixedSizeOps(decimal256)
 
-{.pop.}                               
+{.pop.}

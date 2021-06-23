@@ -10,13 +10,13 @@ proc camelCase*(s: string, pascal: bool = false): string =
     else:
       result.add word
 
-proc pascalCase*(s: string): string = camelCase(s, true)      
+proc pascalCase*(s: string): string = camelCase(s, true)
 
-proc toNimProc*(suffix: string, name: NimNode): NimNode =  
+proc toNimProc*(suffix: string, name: NimNode): NimNode =
   ident(repr(name).camelCase() & suffix.pascalCase())
-  
+
 proc toImportc*(suffix: string, name: NimNode): string =
   "garrow_" & repr(name) & "_" & suffix
 
 proc toNamePair*(suffix: string, name: NimNode): (NimNode, string) =
-  (suffix.toNimProc(name), suffix.toImportc(name))  
+  (suffix.toNimProc(name), suffix.toImportc(name))

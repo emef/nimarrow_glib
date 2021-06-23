@@ -2,26 +2,26 @@ import ./glib
 
 const libName = "libarrow-glib.so"
 
-type 
-  GArrowBuffer = object 
+type
+  GArrowBuffer = object
   GArrowBufferPtr* = ptr GArrowBuffer
 
-{.push dynlib: libName.}  
+{.push dynlib: libName.}
 
-proc bufferNew*(data: pointer, size: int64): GArrowBufferPtr 
+proc bufferNew*(data: pointer, size: int64): GArrowBufferPtr
   {.importc: "garrow_buffer_new".}
 
 proc bufferNewBytes*(data: GBytesPtr): GArrowBufferPtr
   {.importc: "garrow_buffer_new_bytes".}
 
-proc bufferEqual*(buffer: GArrowBufferPtr, 
+proc bufferEqual*(buffer: GArrowBufferPtr,
                   otherBuffer: GArrowBufferPtr): bool
                   {.importc: "garrow_buffer_equal".}
 
-proc bufferEqualNBytes*(buffer: GArrowBufferPtr, 
-                        otherBuffer: GArrowBufferPtr, nBytes: int64): bool      
-                        {.importc: "garrow_buffer_equal_n_bytes".}                                    
-                 
+proc bufferEqualNBytes*(buffer: GArrowBufferPtr,
+                        otherBuffer: GArrowBufferPtr, nBytes: int64): bool
+                        {.importc: "garrow_buffer_equal_n_bytes".}
+
 proc bufferIsMutable*(buffer: GArrowBufferPtr): bool
   {.importc: "garrow_buffer_is_mutable".}
 
@@ -44,7 +44,7 @@ proc bufferCopy*(buffer: GArrowBufferPtr, start: int64, size: int64,
                  error: var GErrorPtr): GArrowBufferPtr
                  {.importc: "garrow_buffer_copy".}
 
-proc bufferSlice*(buffer: GArrowBufferPtr, offset: int64, 
+proc bufferSlice*(buffer: GArrowBufferPtr, offset: int64,
                  size: int64): GArrowBufferPtr
                  {.importc: "garrow_buffer_slice".}
 
@@ -59,7 +59,7 @@ proc mutableBufferSlice*(buffer: GArrowBufferPtr, offset: int64,
                          {.importc: "garrow_mutable_buffer_slice".}
 
 proc mutableBufferSetData*(buffer: GArrowBufferPtr, offset: int64,
-                           data: ptr uint8, size: int64, 
+                           data: ptr uint8, size: int64,
                            error: var GErrorPtr): bool
                            {.importc: "garrow_mutable_buffer_set_data".}
 
@@ -67,11 +67,11 @@ proc resizableBufferNew*(initialSize: int64, error: var GErrorPtr): GArrowBuffer
   {.importc: "garrow_resizable_buffer_new".}
 
 proc resizableBufferResize*(buffer: GArrowBufferPtr, newSize: int64,
-                            error: var GErrorPtr): bool     
-                            {.importc: "garrow_resizable_buffer_resize".}                                                                              
+                            error: var GErrorPtr): bool
+                            {.importc: "garrow_resizable_buffer_resize".}
 
 proc resizableBufferReserve*(buffer: GArrowBufferPtr, newCapacity: int64,
-                             error: var GErrorPtr): bool    
+                             error: var GErrorPtr): bool
                              {.importc: "garrow_resizable_buffer_reserve".}
-                                                  
+
 {.pop.}
