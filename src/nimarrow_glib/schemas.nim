@@ -1,5 +1,4 @@
-import ./arrays
-import ./glib
+import ./arrays, ./glib
 
 const libName = "libarrow-glib.so"
 
@@ -95,22 +94,22 @@ proc schemaHasMetadata*(schema: GArrowSchemaPtr): bool
 skipped:
 
 GHashTable *
-garrow_field_get_metadata (GArrowField *field);
+garrow_field_get_metadata (GArrowField *field)
 
 GArrowField *
 garrow_field_with_metadata (GArrowField *field,
-                            GHashTable *metadata);
+                            GHashTable *metadata)
 
 GArrowField *
 garrow_field_with_merged_metadata (GArrowField *field,
-                                   GHashTable *metadata);
+                                   GHashTable *metadata)
 
 GHashTable *
-garrow_schema_get_metadata (GArrowSchema *schema);
+garrow_schema_get_metadata (GArrowSchema *schema)
 
 GArrowSchema *
 garrow_schema_with_metadata (GArrowSchema *schema,
-                             GHashTable *metadata);
+                             GHashTable *metadata)
 ]#
 
 {.pop.}

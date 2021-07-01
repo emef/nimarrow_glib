@@ -1,6 +1,4 @@
-import ./arrays
-import ./glib
-import ./schemas
+import ./arrays, ./glib, ./schemas
 
 const libName = "libarrow-glib.so"
 
@@ -62,39 +60,39 @@ GArrowTable *
 garrow_table_new_chunked_arrays (GArrowSchema *schema,
                                  GArrowChunkedArray **chunked_arrays,
                                  gsize n_chunked_arrays,
-                                 GError **error);
+                                 GError **error)
 
 GArrowTable *
 garrow_table_new_record_batches (GArrowSchema *schema,
                                  GArrowRecordBatch **record_batches,
                                  gsize n_record_batches,
-                                 GError **error);
+                                 GError **error)
 
 GArrowTable *
 garrow_table_add_column (GArrowTable *table,
                          guint i,
                          GArrowField *field,
                          GArrowChunkedArray *chunked_array,
-                         GError **error);
+                         GError **error)
 
 GArrowTable *
 garrow_table_replace_column (GArrowTable *table,
                              guint i,
                              GArrowField *field,
                              GArrowChunkedArray *chunked_array,
-                             GError **error);
+                             GError **error)
 
 GArrowChunkedArray *
 garrow_table_get_column_data (GArrowTable *table,
-                              gint i);
+                              gint i)
 
 GArrowFeatherWriteProperties *
-garrow_feather_write_properties_new (void);
+garrow_feather_write_properties_new (void)
 
 gboolean
 garrow_table_write_as_feather (GArrowTable *table,
                                GArrowOutputStream *sink,
                                GArrowFeatherWriteProperties *properties,
-                               GError **error);
+                               GError **error)
 
 ]#

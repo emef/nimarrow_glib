@@ -17,7 +17,6 @@ type
   GBytes = object
   GBytesPtr* = ptr GBytes
 
-
 {.push dynlib: libglib.}
 
 proc glistAppend*(list: GListPtr, data: pointer): GListPtr
@@ -36,6 +35,5 @@ proc gbytesGetData*(gbytes: GBytesPtr, size: var uint64): pointer
 
 {.push dynlib: libgobject.}
 proc gObjectUnref*(data: pointer) {.importc: "g_object_unref".}
-
 
 {.pop.}

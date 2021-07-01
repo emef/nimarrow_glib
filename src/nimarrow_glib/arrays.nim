@@ -1,18 +1,15 @@
-import macros
-
-import ./buffers
-import ./decimals
-import ./glib
-import ./helpers
+import ./buffers, ./decimals, ./glib, ./helpers, macros
 
 const libName = "libarrow-glib.so"
 
 type
   GArrowType* = enum
     GARROW_TYPE_NA, GARROW_TYPE_BOOLEAN, GARROW_TYPE_UINT8, GARROW_TYPE_INT8,
-    GARROW_TYPE_UINT16, GARROW_TYPE_INT16, GARROW_TYPE_UINT32, GARROW_TYPE_INT32,
+    GARROW_TYPE_UINT16, GARROW_TYPE_INT16, GARROW_TYPE_UINT32,
+        GARROW_TYPE_INT32,
     GARROW_TYPE_UINT64, GARROW_TYPE_INT64, GARROW_TYPE_HALF_FLOAT,
-    GARROW_TYPE_FLOAT, GARROW_TYPE_DOUBLE, GARROW_TYPE_STRING, GARROW_TYPE_BINARY,
+    GARROW_TYPE_FLOAT, GARROW_TYPE_DOUBLE, GARROW_TYPE_STRING,
+        GARROW_TYPE_BINARY,
     GARROW_TYPE_FIXED_SIZE_BINARY, GARROW_TYPE_DATE32, GARROW_TYPE_DATE64,
     GARROW_TYPE_TIMESTAMP, GARROW_TYPE_TIME32, GARROW_TYPE_TIME64,
     GARROW_TYPE_INTERVAL_MONTHS, GARROW_TYPE_INTERVAL_DAY_TIME,
@@ -97,18 +94,19 @@ proc primitiveArrayGetDataBuffer*(arr: GArrowArrayPtr): GArrowBufferPtr
   {.importc: "garrow_primitive_array_get_data_buffer".}
 
 proc fixedSizeBinaryArrayNew*(dataType: GArrowDataTypePtr, length: int64,
-                              data: GArrowBufferPtr, nullBitmap: GArrowBufferPtr,
+                              data: GArrowBufferPtr,
+                                  nullBitmap: GArrowBufferPtr,
                               nNulls: int64): GArrowArrayPtr
                               {.importc: "garrow_fixed_size_binary_array_new".}
 
 proc fixedSizeBinaryArrayGetByteWidth*(arr: GArrowArrayPtr): int32
-  {.importc: "garrow_fixed_size_binary_array_get_byte_width"}
+  {.importc: "garrow_fixed_size_binary_array_get_byte_width".}
 
 proc fixedSizeBinaryArrayGetValue*(arr: GArrowArrayPtr, i: int64): GBytesPtr
-  {.importc: "garrow_fixed_size_binary_array_get_value"}
+  {.importc: "garrow_fixed_size_binary_array_get_value".}
 
 proc fixedSizeBinaryArrayGetValuesBytes*(arr: GArrowArrayPtr): GBytesPtr
-  {.importc: "garrow_fixed_size_binary_array_get_values_bytes"}
+  {.importc: "garrow_fixed_size_binary_array_get_values_bytes".}
 
 proc extensionArrayGetStorage*(arr: GArrowArrayPtr): GArrowArrayPtr
   {.importc: "garrow_extension_array_get_storage".}
@@ -130,10 +128,10 @@ proc fixedWidthDataTypeGetBitWidth*(dataType: GArrowDataTypePtr): cint
   {.importc: "garrow_fixed_width_data_type_get_bit_width".}
 
 proc nullDataTypeNew*(): GArrowDataTypePtr
-  {.importc: "garrow_null_data_type_new"}
+  {.importc: "garrow_null_data_type_new".}
 
 proc fixedSizeBinaryDataTypeNew*(byteWidth: int32): GArrowDataTypePtr
-  {.importc: "garrow_fixed_size_binary_data_type_new"}
+  {.importc: "garrow_fixed_size_binary_data_type_new".}
 
 proc fixedSizeBinaryDataTypeGetByteWidth*(dataType: GArrowDataTypePtr): int32
   {.importc: "garrow_fixed_size_binary_data_type_get_byte_width".}
@@ -150,10 +148,12 @@ proc timestampDataTypeGetUnit*(dataType: GArrowDataTypePtr): GArrowTimeUnit
 proc timeDataTypeGetUnit*(dataType: GArrowDataTypePtr): GArrowTimeUnit
   {.importc: "garrow_timestamp_data_type_get_unit".}
 
-proc time32DataTypeNew*(unit: GArrowTimeUnit, error: var GErrorPtr): GArrowDataTypePtr
+proc time32DataTypeNew*(unit: GArrowTimeUnit,
+    error: var GErrorPtr): GArrowDataTypePtr
   {.importc: "garrow_time32_data_type_new".}
 
-proc time64DataTypeNew*(unit: GArrowTimeUnit, error: var GErrorPtr): GArrowDataTypePtr
+proc time64DataTypeNew*(unit: GArrowTimeUnit,
+    error: var GErrorPtr): GArrowDataTypePtr
   {.importc: "garrow_time64_data_type_new".}
 
 proc decimal128DataTypeNew*(precision: int32, scale: int32): GArrowDataTypePtr
@@ -178,7 +178,6 @@ proc extensionDataTypeWrapArray*(dataType: GArrowDataTypePtr,
 proc extensionDataTypeWrapChunkedArray*(dataType: GArrowDataTypePtr,
                                         storage: GArrowArrayPtr)
                                         {.importc: "garrow_extension_data_type_wrap_chunked_array".}
-
 
 proc extensionDataTypeRegistryDefault*(): GArrowExtensionDataTypeRegistryPtr
   {.importc: "garrow_extension_data_type_registry_default".}
@@ -225,9 +224,10 @@ macro DeclareNumericArray(dtype, name: untyped,
   if not isTime:
     result.add defaultDataTypeProc(name)
     result.add quote do:
-        proc `procNew`*(length: int64, data: GArrowBufferPtr,
-                        nullBitmap: GArrowBufferPtr, nNulls: int64): GArrowArrayPtr
-                        {.importc: `importNew`}
+      proc `procNew`*(length: int64, data: GArrowBufferPtr,
+                        nullBitmap: GArrowBufferPtr,
+                            nNulls: int64): GArrowArrayPtr
+                        {.importc: `importNew`.}
   else:
     result.add quote do:
       proc `procNew`*(dataType: GArrowDataTypePtr, length: int64,
@@ -237,7 +237,7 @@ macro DeclareNumericArray(dtype, name: untyped,
 
   result.add quote do:
     proc `procGetValue`*(arr: GArrowArrayPtr, i: int64): `dtype`
-      {.importc:`importGetValue`.}
+      {.importc: `importGetValue`.}
 
     proc `procGetValues`*(arr: GArrowArrayPtr,
                           length: var int64): ptr UncheckedArray[`dtype`]

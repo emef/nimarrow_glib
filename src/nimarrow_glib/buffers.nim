@@ -63,7 +63,8 @@ proc mutableBufferSetData*(buffer: GArrowBufferPtr, offset: int64,
                            error: var GErrorPtr): bool
                            {.importc: "garrow_mutable_buffer_set_data".}
 
-proc resizableBufferNew*(initialSize: int64, error: var GErrorPtr): GArrowBufferPtr
+proc resizableBufferNew*(initialSize: int64,
+    error: var GErrorPtr): GArrowBufferPtr
   {.importc: "garrow_resizable_buffer_new".}
 
 proc resizableBufferResize*(buffer: GArrowBufferPtr, newSize: int64,

@@ -1,6 +1,4 @@
-import unittest
-
-import nimarrow_glib
+import nimarrow_glib, unittest
 
 test "can add":
 
@@ -43,47 +41,38 @@ test "can add":
   let colAArray = int32ArrayNew(2, colABuffer, nil, 0)
   let colBArray = int32ArrayNew(2, colBBuffer, nil, 0)
 
-  let colABuilder = newArrowInt32ArrayBuilder()
-  let colBBuilder = newArrowInt32ArrayBuilder()
-
-  discard colABuilder.append(1'i32, err)
-  discard colABuilder.append(2'i32, err)
-  discard colBBuilder.append(3'i32, err)
-  discard colBBuilder.append(4'i32, err)
-
-  let colAArray2 = colABuilder.finish(err)
-  let colBArray2 = colBBuilder.finish(err)
-
   var length: int64
-  var colBValues = int32ArrayGetValues(colBArray2, length)
+  var colBValues = int32ArrayGetValues(colBArray, length)
   echo "col_b values, length = " & $length
   echo colBValues[0]
   echo colBValues[1]
 
-
   echo $colA
   echo colAArray.arrayToString(err)
-  echo colAArray2.arrayToString(err)
+  echo colAArray.arrayToString(err)
 
   var values: GListPtr = nil
-  values = values.glistAppend(colAArray2)
-  values = values.glistAppend(colBArray2)
+  values = values.glistAppend(colAArray)
+  values = values.glistAppend(colBArray)
 
   let table = tableNewValues(schema, values, err)
 
   echo repr(err)
   echo repr(table)
 
-  let writerProps = newParquetWriterProperties();
+  let writerProps = writerPropertiesNew()
 
-  let writer = newParquetFileWriterPath(schema, "/tmp/test.parq", writerProps, err)
+  let writer = parquetFileWriterNewPath(schema, "/tmp/test.parq", writerProps, err)
   let chunkSize = 100'u64
 
-  let ok = writer.writeTable(table, chunkSize, err)
+  let ok = writer.parquetFileWriterWriteTable(table, chunkSize, err)
   echo "ok ", ok
   echo repr(err)
 
-  let closed = writer.close(err)
-  echo "closed? ", closed
+  discard writer.parquetFileWriterWriteTable(table, chunkSize, err)
+  echo "ok ", ok
   echo repr(err)
 
+  let closed = writer.parquetFileWriterClose(err)
+  echo "closed? ", closed
+  echo repr(err)

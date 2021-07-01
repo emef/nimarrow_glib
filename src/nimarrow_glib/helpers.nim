@@ -1,5 +1,4 @@
-import macros
-import strutils
+import macros, strutils
 
 proc camelCase*(s: string, pascal: bool = false): string =
   result = ""

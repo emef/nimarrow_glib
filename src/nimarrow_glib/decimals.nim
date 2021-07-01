@@ -1,6 +1,4 @@
-import macros
-
-import ./helpers
+import ./helpers, macros
 
 proc toDecimalIdent*(glibName: string, isPtr: bool): NimNode =
   var name = "GArrow" & glibName.pascalCase()
@@ -17,7 +15,6 @@ macro RegisterDecimalType(name: untyped): untyped =
     type
       `typName` = object
       `ptrName`* = ref `typName`
-
 
 RegisterDecimalType(decimal128)
 RegisterDecimalType(decimal256)

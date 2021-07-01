@@ -45,22 +45,22 @@ and parquet libraries referenced here: https://arrow.apache.org/docs/c_glib/
 - [ ] Computation on data
 - [ ] Datum classes
 - [x] Buffer classes
-- [ ] Codec related type and class
+- [x] Codec related type and class
 - [ ] GArrowError — Error code mapping between Arrow and arrow-glib
 
 #### File system API
 
-- [ ] File system classes
-- [ ] Local file system classes
+- [x] File system classes
+- [x] Local file system classes
 
 #### IO
 
 - [ ] GArrowFileMode — File mode mapping between Arrow and arrow-glib
 - [ ] GArrowReadable — Input interface
-- [ ] Input stream classes
+- [x] Input stream classes
 - [ ] GArrowWritable — Output interface
 - [ ] GArrowWritableFile — File output interface
-- [ ] Output stream classes
+- [x] Output stream classes
 - [ ] GArrowFile — File interface
 
 #### IPC
