@@ -12,6 +12,13 @@ proc tableNewValues*(schema: GArrowSchemaPtr, values: GListPtr,
                      error: var GErrorPtr): GArrowTablePtr
                      {.importc: "garrow_table_new_values".}
 
+proc tableNewChunkedArrays*(
+    schema: GArrowSchemaPtr;
+    chunkedArray: GArrowChunkedArrayPtr;
+    nChunkedArrays: uint64;
+    error: var GErrorPtr): GArrowTablePtr {.
+    importc: "garrow_table_new_chunked_arrays".}
+
 proc tableNewArrays*(schema: GArrowSchemaPtr,
                      arrays: ptr UncheckedArray[GArrowArrayPtr],
                      nArrays: uint64, error: var GErrorPtr): GArrowTablePtr
@@ -52,39 +59,34 @@ proc tableCombineChunks*(table: GArrowTablePtr,
                          error: var GErrorPtr): GArrowTablePtr
                          {.importc: "garrow_table_combine_chunks".}
 
+proc tableAddColumn*(
+    table: GArrowTablePtr;
+    i: uint;
+    field: GArrowFieldPtr;
+    chunkedArray: GArrowChunkedArrayPtr;
+    error: var GErrorPtr): GArrowTablePtr {.
+    importc: "garrow_table_add_column".}
+
+proc tableReplaceColumn*(
+    table: GArrowTablePtr;
+    i: uint;
+    field: GArrowFieldPtr;
+    chunkedArray: GArrowChunkedArrayPtr;
+    error: var GErrorPtr): GArrowTablePtr {.
+    importc: "garrow_table_add_column".}
+
+proc tableGetColumnData*(table: GArrowTablePtr, i: int): GArrowChunkedArrayPtr {.
+    importc: "garrow_table_get_column_data".}
+
 #[
 
 skipped:
-
-GArrowTable *
-garrow_table_new_chunked_arrays (GArrowSchema *schema,
-                                 GArrowChunkedArray **chunked_arrays,
-                                 gsize n_chunked_arrays,
-                                 GError **error)
 
 GArrowTable *
 garrow_table_new_record_batches (GArrowSchema *schema,
                                  GArrowRecordBatch **record_batches,
                                  gsize n_record_batches,
                                  GError **error)
-
-GArrowTable *
-garrow_table_add_column (GArrowTable *table,
-                         guint i,
-                         GArrowField *field,
-                         GArrowChunkedArray *chunked_array,
-                         GError **error)
-
-GArrowTable *
-garrow_table_replace_column (GArrowTable *table,
-                             guint i,
-                             GArrowField *field,
-                             GArrowChunkedArray *chunked_array,
-                             GError **error)
-
-GArrowChunkedArray *
-garrow_table_get_column_data (GArrowTable *table,
-                              gint i)
 
 GArrowFeatherWriteProperties *
 garrow_feather_write_properties_new (void)
@@ -96,3 +98,5 @@ garrow_table_write_as_feather (GArrowTable *table,
                                GError **error)
 
 ]#
+
+{.pop.}

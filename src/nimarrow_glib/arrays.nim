@@ -26,6 +26,9 @@ type
   GArrowArray = object
   GArrowArrayPtr* = ptr GArrowArray
 
+  GArrowChunkedArray = object
+  GArrowChunkedArrayPtr* = ptr GArrowChunkedArray
+
   GArrowDataType = object
   GArrowDataTypePtr* = ptr GArrowDataType
 
@@ -316,5 +319,55 @@ AddStringOps(large_string)
 
 AddFixedSizeOps(decimal128)
 AddFixedSizeOps(decimal256)
+
+proc chunkedArrayEqual*(
+    chunkedArray: GArrowChunkedArrayPtr;
+    otherChunkedArray: GArrowChunkedArrayPtr): bool {.
+    importc: "garrow_chunked_array_equal".}
+
+proc chunkedArrayGetValueDataType*(
+    chunkedArray: GArrowChunkedArrayPtr): GArrowDataTypePtr {.
+    importc: "garrow_chunked_array_get_value_data_type".}
+
+proc chunkedArrayGetValueType*(
+    chunkedArray: GArrowChunkedArrayPtr): GArrowType {.
+    importc: "garrow_chunked_array_get_value_type".}
+
+proc chunkedArrayGetNRows*(
+    chunkedArray: GArrowChunkedArrayPtr): uint64 {.
+    importc: "garrow_chunked_array_get_n_rows".}
+
+proc chunkedArrayGetNNulls*(
+    chunkedArray: GArrowChunkedArrayPtr): uint64 {.
+    importc: "garrow_chunked_array_get_n_nulls".}
+
+proc chunkedArrayGetNChunks*(
+    chunkedArray: GArrowChunkedArrayPtr): uint {.
+    importc: "garrow_chunked_array_get_n_chunks".}
+
+proc chunkedArrayGetChunk*(
+    chunkedArray: GArrowChunkedArrayPtr;
+    i: uint): GArrowArrayPtr {.
+    importc: "garrow_chunked_array_get_chunk".}
+
+proc chunkedArrayGetChunks*(
+    chunkedArray: GArrowChunkedArrayPtr): GListPtr {.
+    importc: "garrow_chunked_array_get_chunks".}
+
+proc chunkedArraySlice*(
+    chunkedArray: GArrowChunkedArrayPtr;
+    offset: uint64;
+    length: uint64): GArrowChunkedArrayPtr {.
+    importc: "garrow_chunked_array_slice".}
+
+proc chunkedArrayToString*(
+    chunkedArray: GArrowChunkedArrayPtr;
+    error: var GErrorPtr): cstring {.
+    importc: "garrow_chunked_array_to_string".}
+
+proc chunkedArrayCombine*(
+    chunkedArray: GArrowChunkedArrayPtr;
+    error: var GErrorPtr): GArrowArrayPtr {.
+    importc: "garrow_chunked_array_combine".}
 
 {.pop.}

@@ -1,3 +1,4 @@
+import ./arrays
 import ./codecs
 import ./glib
 import ./io
@@ -74,7 +75,6 @@ proc writerPropertiesGetDataPageSize*(
     properties: GParquetWriterPropertiesPtr): int64
     {.importc: "gparquet_writer_properties_get_data_page_size".}
 
-
 proc parquetFileWriterNewArrow*(
     schema: GArrowSchemaPtr;
     sink: GArrowOutputStreamPtr;
@@ -126,13 +126,11 @@ proc parquetFileReaderGetSchema*(
     error: var GErrorPtr): GArrowSchemaPtr
     {.importc: "gparquet_arrow_file_reader_get_schema".}
 
-#[
-  skipped until chunked array support:
-
-proc parquetFileReaderReadColumnData*(reader: GParquetArrowFileReaderPtr
-                                    i: int; error: var GErrorPtr): GArrowChunkedArrayPtr
-                                    {.importc: "gparquet_arrow_file_reader_read_column_data".}
-]#
+proc parquetFileReaderReadColumnData*(
+    reader: GParquetArrowFileReaderPtr;
+    i: int;
+    error: var GErrorPtr): GArrowChunkedArrayPtr
+    {.importc: "gparquet_arrow_file_reader_read_column_data".}
 
 proc parquetFileReaderGetNRowGroups*(reader: GParquetArrowFileReaderPtr): int
     {.importc: "gparquet_arrow_file_reader_get_n_row_groups".}
